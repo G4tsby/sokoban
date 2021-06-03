@@ -5,11 +5,12 @@ from time import sleep
 import keyboard
 import shutil
 import datetime
+import re
 
 today = datetime.datetime.today()
 
-DATA_LIST = ['0','1','2','3']
-# 0:빈곳 1:벽 2:장애물 3:캐릭터
+DATA_LIST = ['1','2','3','4']
+# 0:빈곳 1:벽 2:상자 3:캐릭터 4:목표
 
 def clear_screen():
     if system() == "Windows":
@@ -20,13 +21,10 @@ def clear_screen():
 class Stage:
     def __init__(self):
         # 맵 데이터 열기
-        f = open("map.csv", 'r')
+        f = open("map.csv",'r')
         origin = csv.reader(f)
-
-        # 맵 데이터 배열로 옮겨담기
-        self.data = []
-        for i in origin:
-            self.data.append(i)
+        m = re.compile('[0-4]')
+        self.data = [[m.findall(j) for j in i] for i in origin]
         f.close()
     
     def show_data(self, idx, select=None):
@@ -61,7 +59,8 @@ class Stage:
             for j in range(x):
                 if i==0 or j==0 or i==y-1 or j==x-1:
                     self.data[len(self.data)-1][i][j] = 1
-        self.edit_data(len(self.data)-1)
+        idx = len(self.data)-1
+        self.edit_data(idx)
 
     def edit_data(self, idx):
         clear_screen()
@@ -116,7 +115,8 @@ while True:
         stage.add_data()
     elif tesk == '2':
         if len(stage.data):
-            stage.edit_data(int(input("\n수정할 맵 번호를 입력해 주세요: ")))
+            idx = int(input("\n수정할 맵 번호를 입력해 주세요: "))
+            stage.edit_data(idx)
         else:
             print("\n맵이 존재하지 않습니다.")
     elif tesk == '3':
