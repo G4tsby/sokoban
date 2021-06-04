@@ -2,19 +2,10 @@ import pygame
 import tkinter as tk
 import csv
 import re
+from player import Player
 
 from mainmenu import draw_menu, set_font
 from game import sokoban
-
-class Player:
-    def __init__(self):
-        self.count = 0
-
-        self.sprite = pygame.image.load("assets/sprite/idle.png")
-        self.sprite = pygame.transform.scale(self.sprite, (64, 64))
-
-    def move(direction):
-        pass
 
 def init_game():
     # 컴퓨터 해상도 받아오기

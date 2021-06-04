@@ -16,11 +16,11 @@ def sokoban(screen: pygame.surface, player, level, init, res_x, res_y):
                 elif level[i][j] == '0' or level[i][j] == '3':
                     block = pygame.image.load("assets/sprite/tile.png")
                 block = pygame.transform.scale(block, (64, 64))
-                _screen.blit(block,[origin_point_x+j*64, origin_point_y+i*64])
+                _screen.blit(block, [origin_point_x+j*64, origin_point_y+i*64])
 
                 if level[i][j] == '3':
                     block = pygame.image.load("assets/sprite/idle.png")
                     block = pygame.transform.scale(block, (64, 64))
-                    _screen.blit(block,[origin_point_x+j*64, origin_point_y+i*64])
+                    _screen.blit(block, [origin_point_x+j*64, origin_point_y+i*64])
                     
     draw_map(level, screen, res_x, res_y)
