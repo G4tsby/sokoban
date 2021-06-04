@@ -25,7 +25,7 @@ def init_game():
     # 저장된 맵 불러오기
     f = open("map.csv",'r')
     origin = csv.reader(f)
-    m = re.compile('[0-4]')
+    m = re.compile('[0-5]')
     level = [[m.findall(j) for j in i] for i in origin]
     f.close()
 
@@ -40,6 +40,7 @@ def run_game(screen, level, player, res_x, res_y, default_font):
     selected_stage = 0
     selected_exit = 0
     inited = False
+    x, y = 0, 0
 
     while True:
         clock.tick(10)
@@ -78,24 +79,24 @@ def run_game(screen, level, player, res_x, res_y, default_font):
                 # 게임 진행중일때
                 elif mode == "game":
                     if event.key == pygame.K_LEFT:
-                        if player.x != 0:
-                            player.x -= 1
+                        if x != 0:
+                            x -= 1
                     elif event.key == pygame.K_RIGHT:
-                        if player.x != len(level[selected_stage][0])-1:
-                            player.x += 1
+                        if x != len(level[selected_stage][0])-1:
+                            x += 1
                     elif event.key == pygame.K_UP:
-                        if player.y != 0:
-                            player.y -= 1
+                        if y != 0:
+                            y -= 1
                     elif event.key == pygame.K_DOWN:
-                        if player.y != len(level[selected_stage])-1:
-                            player.y += 1
+                        if y != len(level[selected_stage])-1:
+                            y += 1
 
 
         # 모드별 함수 호출
         if mode == "menu":
             draw_menu(screen, res_x, res_y, default_font, selected_stage, selected_exit)
         elif mode == "game":
-            sokoban(screen, player, level[selected_stage], inited, res_x, res_y)
+            inited, x, y = sokoban(screen, player, level[selected_stage], inited, res_x, res_y, x, y)
         pygame.display.update()
 
 if __name__ == '__main__':

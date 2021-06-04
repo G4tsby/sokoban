@@ -23,7 +23,7 @@ class Stage:
         # 맵 데이터 열기
         f = open("map.csv",'r')
         origin = csv.reader(f)
-        m = re.compile('[0-4]')
+        m = re.compile('[0-5]')
         self.data = [[m.findall(j) for j in i] for i in origin]
         f.close()
     
@@ -35,6 +35,7 @@ class Stage:
         else:
             x,y = select
             print("방향키로 커서 이동, 숫자를 입력해 해당 칸 데이터 변경, p키로 종료")
+            print("0:빈공간 1:벽 2:상자 3:캐릭터 4:목표 5: 목표에 들어가 있는 상자")
             for i in range(len(self.data[idx])):
                 for j in range(len(self.data[idx][0])):
                     if i==y and j==x:

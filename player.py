@@ -9,6 +9,3 @@ class Player:
 
         self.sprite = pygame.image.load("assets/sprite/idle.png")
         self.sprite = pygame.transform.scale(self.sprite, (64, 64))
-
-    def move(direction):
-        pass
