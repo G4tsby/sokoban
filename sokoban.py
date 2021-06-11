@@ -8,14 +8,6 @@ import copy
 from mainmenu import draw_menu, set_font
 from game import sokoban
 
-def init_map():
-    # 저장된 맵 불러오기
-    f = open("map.csv",'r')
-    origin = csv.reader(f)
-    m = re.compile('[0-5]')
-    level = [[m.findall(j) for j in i] for i in origin]
-    f.close()
-    return level
 
 def init_game():
     # 컴퓨터 해상도 받아오기
@@ -32,13 +24,19 @@ def init_game():
     pygame.font.init()
     default_font = set_font(30)
 
-    level = init_map()
+    # 저장된 맵 불러오기
+    f = open("map.csv",'r')
+    origin = csv.reader(f)
+    m = re.compile('[0-5]')
+    level = [[m.findall(j) for j in i] for i in origin]
+    o_level = copy.deepcopy(level)
+    f.close()
     player = Player()
     
     screen.fill((255, 255, 255))
-    run_game(screen, level, player, res_x, res_y, default_font)
+    run_game(screen, level, o_level, player, res_x, res_y, default_font)
 
-def run_game(screen, level, player, res_x, res_y, default_font):
+def run_game(screen, level, o_level, player, res_x, res_y, default_font):
     clock = pygame.time.Clock()
     mode = "menu"
     selected_stage = 0
@@ -74,7 +72,7 @@ def run_game(screen, level, player, res_x, res_y, default_font):
                         selected_exit = 1
                     elif event.key == pygame.K_RETURN:
                         if selected_exit == 0:
-                            level = init_map()
+                            level = copy.deepcopy(o_level)
                             mode = "game"
                         elif selected_exit == 1:
                             pygame.quit()
