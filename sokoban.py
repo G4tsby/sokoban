@@ -64,7 +64,12 @@ def run_game(screen, level, o_level, player, res_x, res_y, default_font):
                     if selected_exit == 0:
                         mode = "game"
                     elif selected_exit == 1:
-                        pygame.quit()
+                        if mode == "game":
+                            mode = "menu"
+                            inited = False
+                        else:
+                            pygame.quit()
+                        selected_exit = 0
                     elif selected_exit == 2:
                         selected_exit = 0
                 
