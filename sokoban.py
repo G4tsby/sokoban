@@ -43,6 +43,7 @@ def run_game(screen, level, o_level, player, res_x, res_y, default_font):
     selected_exit = 0
     inited = False
     x, y = 0, 0
+    count = 0
 
     while True:
         clock.tick(10)
@@ -57,6 +58,21 @@ def run_game(screen, level, o_level, player, res_x, res_y, default_font):
             # 키 입력 처리
             # 메인매뉴일때
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                        selected_exit = 1
+                elif event.key == pygame.K_RETURN:
+                    if selected_exit == 0:
+                        mode = "game"
+                    elif selected_exit == 1:
+                        pygame.quit()
+                    elif selected_exit == 2:
+                        selected_exit = 0
+                
+                if event.key == pygame.K_LEFT and selected_exit == 2:
+                    selected_exit = 1
+                elif event.key == pygame.K_RIGHT and selected_exit == 1:
+                    selected_exit = 2
+
                 if mode == "menu":
                     if event.key == pygame.K_LEFT:
                         if selected_exit == 0 and selected_stage != 0:
@@ -68,19 +84,9 @@ def run_game(screen, level, o_level, player, res_x, res_y, default_font):
                             selected_stage += 1
                         elif selected_exit == 1:
                             selected_exit = 2
-                    elif event.key == pygame.K_ESCAPE:
-                        selected_exit = 1
-                    elif event.key == pygame.K_RETURN:
-                        if selected_exit == 0:
-                            level = copy.deepcopy(o_level)
-                            mode = "game"
-                        elif selected_exit == 1:
-                            pygame.quit()
-                        elif selected_exit == 2:
-                            selected_exit = 0
 
                 # 게임 진행중일때
-                elif mode == "game":
+                elif mode == "game" and selected_exit == 0:
                     if event.key == pygame.K_LEFT:
                         if x != 0:
                             x -= 1
@@ -100,7 +106,12 @@ def run_game(screen, level, o_level, player, res_x, res_y, default_font):
         if mode == "menu":
             draw_menu(screen, res_x, res_y, default_font, selected_stage, selected_exit)
         elif mode == "game":
-            inited, x, y, mode = sokoban(screen, player, level[selected_stage], inited, res_x, res_y, x, y)
+            if inited == False:
+                level = copy.deepcopy(o_level)
+                count = 0
+                player.__init__()
+                x, y = 0, 0
+            inited, x, y, mode, selected_exit = sokoban(screen, player, level[selected_stage], inited, res_x, res_y, x, y, selected_exit)
         pygame.display.update()
 
 if __name__ == '__main__':

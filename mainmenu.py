@@ -15,7 +15,7 @@ def set_font(size):
 
 def draw_menu(screen: pygame.surface, res_x, res_y, default_font: pygame.font.Font, stage, exit):
 
-    text_surface = default_font.render("좌우 방향키를 이용해 단계를 선택하세요", False, (0, 0, 0))
+    text_surface = default_font.render("좌우 방향키와 Enter를 이용해 단계를 선택하세요", False, (0, 0, 0))
     rect = text_surface.get_rect(center=(res_x*0.5, res_y*0.15))
     screen.blit(text_surface, rect)
 
