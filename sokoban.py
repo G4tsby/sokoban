@@ -3,9 +3,19 @@ import tkinter as tk
 import csv
 import re
 from player import Player
+import copy
 
 from mainmenu import draw_menu, set_font
 from game import sokoban
+
+def init_map():
+    # 저장된 맵 불러오기
+    f = open("map.csv",'r')
+    origin = csv.reader(f)
+    m = re.compile('[0-5]')
+    level = [[m.findall(j) for j in i] for i in origin]
+    f.close()
+    return level
 
 def init_game():
     # 컴퓨터 해상도 받아오기
@@ -22,13 +32,7 @@ def init_game():
     pygame.font.init()
     default_font = set_font(30)
 
-    # 저장된 맵 불러오기
-    f = open("map.csv",'r')
-    origin = csv.reader(f)
-    m = re.compile('[0-5]')
-    level = [[m.findall(j) for j in i] for i in origin]
-    f.close()
-
+    level = init_map()
     player = Player()
     
     screen.fill((255, 255, 255))
@@ -70,6 +74,7 @@ def run_game(screen, level, player, res_x, res_y, default_font):
                         selected_exit = 1
                     elif event.key == pygame.K_RETURN:
                         if selected_exit == 0:
+                            level = init_map()
                             mode = "game"
                         elif selected_exit == 1:
                             pygame.quit()
@@ -90,13 +95,14 @@ def run_game(screen, level, player, res_x, res_y, default_font):
                     elif event.key == pygame.K_DOWN:
                         if y != len(level[selected_stage])-1:
                             y += 1
-
+                    elif event.key == pygame.K_r:
+                        inited = False
 
         # 모드별 함수 호출
         if mode == "menu":
             draw_menu(screen, res_x, res_y, default_font, selected_stage, selected_exit)
         elif mode == "game":
-            inited, x, y = sokoban(screen, player, level[selected_stage], inited, res_x, res_y, x, y)
+            inited, x, y, mode = sokoban(screen, player, level[selected_stage], inited, res_x, res_y, x, y)
         pygame.display.update()
 
 if __name__ == '__main__':
