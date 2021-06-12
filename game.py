@@ -158,9 +158,17 @@ def sokoban(screen: pygame.surface, player, level, init, res_x, res_y, x ,y, sel
                 
     if player.warn == True:
         clr = (255, 0, 0)
+        draw_map(level, screen, res_x, res_y, clr)
+        ft = set_font(round(res_x*0.026))
+        text_surface = ft.render("목표에 도달할 수 없는 상자가 감지됐습니다.", False, (255, 255, 255))
+        rect = text_surface.get_rect(center=(res_x*0.5, res_y*0.05))
+        screen.blit(text_surface, rect)
+        text_surface = ft.render("R키를 눌러 보드를 리셋할 수 있습니다.", False, (255, 255, 255))
+        rect = text_surface.get_rect(center=(res_x*0.5, res_y*0.1))
+        screen.blit(text_surface, rect)
     else:
         clr = (255, 255, 255)
-    draw_map(level, screen, res_x, res_y, clr)
+        draw_map(level, screen, res_x, res_y, clr)
 
     if selected_exit != 0:
         rect = pygame.Rect(res_x*0.332, res_y*0.75, res_x*0.335, res_y*0.17)
