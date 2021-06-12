@@ -76,8 +76,8 @@ def sokoban(screen: pygame.surface, player, level, init, res_x, res_y, x ,y, sel
         return True
     def draw_map(_level, _screen, _res_x, _res_y):
         # 화면 내에서 맵의 원점을 설정
-        origin_point_x = _res_x/2 - len(_level[0])*64/2
-        origin_point_y = _res_y/2 - len(_level)*64/2
+        origin_point_x = _res_x/2 - len(_level[0])*round(res_x*0.03333)/2
+        origin_point_y = _res_y/2 - len(_level)*round(res_x*0.03333)/2
 
         for i in range(len(_level)):
             for j in range(len(_level[0])):
@@ -100,7 +100,7 @@ def sokoban(screen: pygame.surface, player, level, init, res_x, res_y, x ,y, sel
                     _screen.blit(block, [origin_point_x+j*round(res_x*0.03333), origin_point_y+i*round(res_x*0.03333)])
 
     if not init:
-        player.__init__()
+        player.__init__(res_x)
         for i in range(len(level)):
             for j in range(len(level[0])):
                 if level[i][j] == '3':

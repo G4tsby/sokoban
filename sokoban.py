@@ -22,7 +22,7 @@ def init_game():
 
     # 폰트 불러오기
     pygame.font.init()
-    default_font = set_font(30)
+    default_font = set_font(round(res_x*0.026))
 
     # 저장된 맵 불러오기
     f = open("map.csv",'r')
@@ -31,7 +31,7 @@ def init_game():
     level = [[m.findall(j) for j in i] for i in origin]
     o_level = copy.deepcopy(level)
     f.close()
-    player = Player()
+    player = Player(res_x)
     
     screen.fill((255, 255, 255))
     run_game(screen, level, o_level, player, res_x, res_y, default_font)
@@ -114,7 +114,7 @@ def run_game(screen, level, o_level, player, res_x, res_y, default_font):
             if inited == False:
                 level = copy.deepcopy(o_level)
                 count = 0
-                player.__init__()
+                player.__init__(res_x)
                 x, y = 0, 0
             inited, x, y, mode, selected_exit = sokoban(screen, player, level[selected_stage], inited, res_x, res_y, x, y, selected_exit)
         pygame.display.update()

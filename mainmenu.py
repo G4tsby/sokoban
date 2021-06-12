@@ -24,13 +24,13 @@ def draw_menu(screen: pygame.surface, res_x, res_y, default_font: pygame.font.Fo
     screen.blit(text_surface, rect)
 
 
-    ft = set_font(90)
+    ft = set_font(round(res_x*0.046875))
     text_surface = ft.render(str(stage), False, (0, 0, 0))
     rect = text_surface.get_rect(center=(res_x*0.5, res_y*0.5))
     screen.blit(text_surface, rect)
 
     if exit != 0:
-        ft = set_font(50)
+        ft = set_font(round(res_x*0.026))
         text_surface = ft.render("게임을 종료하시겠습니까?", False, (0, 0, 0))
         rect = text_surface.get_rect(center=(res_x*0.5, res_y*0.8))
         screen.blit(text_surface, rect)
