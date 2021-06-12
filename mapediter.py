@@ -9,7 +9,7 @@ import re
 
 today = datetime.datetime.today()
 
-DATA_LIST = ['1','2','3','4']
+DATA_LIST = ['0','1','2','3','4']
 # 0:빈곳 1:벽 2:상자 3:캐릭터 4:목표
 
 def clear_screen():
